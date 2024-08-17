@@ -39,11 +39,11 @@ export default function Cart() {
 
     const cartItemRemoveHandler = (title:string) => {
      const items  =   cartItems.filter((cartItem:CartItemType)=>cartItem.title !== title)
-     if(items.length > 0){
+     
         setCartItems(items)
         setIsModalOpen(false)
         showToast("PRODUCT REMOVED FROM CART")
-     }
+   
     }
     const modalOpenHandler = (title:string) => {
         setRemoveItemTitle(title)
@@ -111,7 +111,7 @@ export default function Cart() {
                       <p className="text-lg">Your cart is empty!</p>
                       <p className="text-xs">Add items to it now.</p>
                    </div>
-                   <Link to={'/home'} className="bg-slate-600 text-white px-10 py-3 " >Shop now</Link>
+                   <Link to={'/'} className="bg-slate-600 text-white px-10 py-3 " >Shop now</Link>
                 </div>
             </div>
 
