@@ -1,30 +1,48 @@
 import  { createContext, useState, ReactNode, useContext } from 'react';
 
+export type CartItemType = {
+    id: number,
+    title: string,
+    price: number,
+    description: string,
+    category: string,
+    image: string,
+    totalPrice:number,
+    discountPrice:number,
+    rating: {
+        rate: number,
+        count: number
+    }
+}
+
 interface CategoryContextType {
     category: string;
     setCategory: (category: string) => void;
+    cartItems: CartItemType[] ,
+    setCartItems: (product:CartItemType[]) => void,
+    
 }
 
 
-const CategoryContext = createContext<CategoryContextType | undefined>(undefined);
+const GlobalProvider = createContext<CategoryContextType | undefined>(undefined);
 
-interface CategoryProviderProps {
-    children: ReactNode;
-}
 
-export const Provider : React.FC<CategoryProviderProps> = ({ children }) => {
+
+export function Provider ({ children }: { children: ReactNode})  {
     const [category, setCategory] = useState<string>('');
+    const [cartItems,setCartItems] = useState<CartItemType[]>(() => {
+        const saved = localStorage.getItem('cartItems');
+        return saved !== null ? JSON.parse(saved) :[]})
 
     return (
-        <CategoryContext.Provider value={{ category, setCategory }}>
+        <GlobalProvider.Provider value={{ category, setCategory,cartItems,setCartItems }}>
             {children}
-        </CategoryContext.Provider>
+        </GlobalProvider.Provider>
     );
 };
 
-// Custom hook to use the CategoryContext
-export const useCategory = (): CategoryContextType => {
-    const context = useContext(CategoryContext);
+export const useGlobal = (): CategoryContextType => {
+    const context = useContext(GlobalProvider);
     if (context === undefined) {
         throw new Error('useCategory must be used within a CategoryProvider');
     }

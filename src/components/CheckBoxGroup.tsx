@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useCategory } from "./Provider";
+import { useGlobal } from "./Provider";
 
 type CheckBoxStateType = {
    name:string,
@@ -19,7 +19,7 @@ const initialState = [
 const CheckboxGroup = () => {
  
     const [checkedItems,setCheckedItems] = useState<CheckBoxStateType[]>(initialState)
-    const { setCategory } = useCategory()
+    const { setCategory } = useGlobal()
  
 const handleCheckboxChange = (event:React.ChangeEvent<HTMLInputElement>) => {
     const { name }:{name:string,checked:boolean} = event.target;
@@ -45,7 +45,7 @@ const handleCheckboxChange = (event:React.ChangeEvent<HTMLInputElement>) => {
 
   return (
     
-  <div className="flex gap-5  p-3 border">
+  <div className="flex flex-wrap  gap-5  p-3 border">
     {
         checkedItems.map((items,index)=>
             <label className="flex gap-1" key={index} > 
